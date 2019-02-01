@@ -1,26 +1,26 @@
-/* FOR DOCS ... MUST MATCH ClickMeComponent template
-  <button (click)="onClickMe()">Click me!</button>
-*/
 
 import { Component } from '@angular/core';
+import { ButtonService} from './button.service';
+import { Click } from './click';
 
 @Component({
   selector: 'app-click-me',
+  providers: [ButtonService],
   template: `
     <button (click)="onClickMe()">Click me!</button>
-    {{clickMessage}}`
+    {{click.greeting}}`
 })
 export class ClickMeComponent {
-  clickMessage = '';
+
+  click: Click = null;
+
+  constructor(private buttonService: ButtonService) {
+    this.click = new Click();
+  }
 
   onClickMe() {
-    this.clickMessage = 'Catherine!';
-  }
+    this.buttonService.onClickMe()
+      .subscribe(click => this.click = click);
+    }
 }
 
-
-/*
-Copyright 2017-2018 Google Inc. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at http://angular.io/license
-*/
